@@ -4,8 +4,9 @@ const mongoose = require("mongoose");
 
 const Order = require("./models/Order");
 const Product = require("./models/Product");
+const checkAuth = require("../middleware/checkAuth");
 
-router.get("/", (req, res, next) => {
+router.get("/", checkAuth, (req, res, next) => {
 	Order.find()
 		.select("quantity product")
 		.populate("product", "name")
@@ -29,7 +30,7 @@ router.get("/", (req, res, next) => {
 		.catch((error) => res.status(500).json({ error }));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", checkAuth, (req, res, next) => {
 	const { quantity, product } = req.body;
 	Product.findById(product)
 		.then(({ _id }) => {
@@ -64,7 +65,7 @@ router.post("/", (req, res, next) => {
 		});
 });
 
-router.get("/:orderId", (req, res, next) => {
+router.get("/:orderId", checkAuth, (req, res, next) => {
 	Order.findById(req.params.orderId)
 		.select("quantity product")
 		.populate("product")

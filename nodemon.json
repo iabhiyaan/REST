@@ -1,5 +1,6 @@
 {
    "env": {
-      "db_password": "node-shop"
+      "db_password": "node-shop",
+      "jwtSecret": "secret"
    }
 }
